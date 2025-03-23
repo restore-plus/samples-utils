@@ -1,4 +1,5 @@
-.
-.Rbuildignore
+.Rproj.user
 .Rhistory
-.Rproj.user/
+.RData
+.Ruserdata
+.DS_Store

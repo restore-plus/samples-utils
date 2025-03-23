@@ -4,13 +4,14 @@ library(sf)
 library(fs)
 library(sits)
 library(dplyr)
+library(timeseriesextraction)
 
 #
 # Cube definitions
 #
 
 # Cube dates
-cube_years <- c(1988, 2022)
+cube_years <- 2020
 
 # Temporal composition
 cube_temporal_composition <- "P3M"
@@ -19,10 +20,10 @@ cube_temporal_composition <- "P3M"
 cube_bands <- c("BLUE", "GREEN", "RED", "NIR08" , "SWIR16", "SWIR22", "CLOUD")
 
 # Cube directory
-cube_base_dir <- "data/derived/cube"
+cube_base_dir <- get_cubes_dir()
 
 # Region
-cube_region_file <- "data/raw/tiles/RO_TILES_WRS.gpkg"
+samples_file <- "data/raw/samples/samples_landsat_amazon-rainforest_2020.gpkg"
 
 #
 # Hardware definitions
@@ -32,58 +33,57 @@ cube_region_file <- "data/raw/tiles/RO_TILES_WRS.gpkg"
 multicores <- 64
 
 # Memory size
-memsize <- 220
+memsize    <- 220
 
 #
-# Create cube directory
+# 1. Create cube directory
 #
 fs::dir_create(cube_base_dir, recurse = TRUE)
 
 #
-# Load region file
+# 2. Load samples
 #
-regions <- st_read(cube_region_file)
-regions[["WRSPR"]] <- gsub(
-  pattern = "^10",
-  replacement = "0010",
-  x = regions[["WRSPR"]]
-)
+samples <- read_sf(samples_file)
 
 #
-# Generate cubes
+# 3. Create convex hull
+#
+region <- st_convex_hull(st_union(samples))
+
+#
+# 4. Generate cubes
 #
 for (cube_year in cube_years) {
   print(paste0("Processing: ", cube_year))
 
   #
-  # Define cube dates
+  # 3.1. Define cube dates
   #
   start_date <- paste0(cube_year, "-01-01")
   end_date   <- paste0(cube_year, "-12-31")
 
   #
-  # Create a directory for the current year
+  # 3.2. Create a directory for the current year
   #
   cube_dir_year <- path(cube_base_dir) / cube_year
 
   fs::dir_create(cube_dir_year, recurse = TRUE)
 
   #
-  # Load cube
+  # 3.3. Load cube
   #
   cube_year <- sits_cube(
     source     = "MPC",
+    platform   = "LANDSAT-8",
     collection = "LANDSAT-C2-L2",
-    roi        = regions,
+    roi        = region,
     start_date = start_date,
     end_date   = end_date,
     bands      = cube_bands
   )
 
-  cube_year <- cube_year[cube_year[["tile"]] %in% regions[["WRSPR"]],]
-
   #
-  # Regularize
+  # 3.4. Regularize
   #
   reg_cube <- sits_regularize(
     cube        = cube_year,
