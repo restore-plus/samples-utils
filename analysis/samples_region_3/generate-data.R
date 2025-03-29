@@ -45,7 +45,8 @@ extract_ts <- function(cube, samples, output_dir, multicores = 44) {
 
 extract_aml_2020_pastagens <- function(cube, year, multicores) {
   samples_name <- "Amostras_AMZ_2020_pastagens"
-  samples <- readRDS("data/raw/samples/Amostras_AMZ_2020_pastagens.rds")
+  samples <- readRDS("data/raw/samples/Amostras_AMZ_2020_pastagens.rds") |>
+                sf::st_cast("POINT")
 
   output_dir <- SAMPLES_BASE_DIR / samples_name / year
   fs::dir_create(output_dir, recurse = TRUE)
@@ -276,7 +277,6 @@ for (regularization_year in regularization_years) {
       res         = 30,
       multicores  = multicores,
       output_dir  = cube_year_dir,
-      grid_system = "BDC_MD_V2",
       timeline    = cube_timeline
     )
 
@@ -289,12 +289,12 @@ for (regularization_year in regularization_years) {
     )
 
     # Extract time-series
-    extract_aml_2020_pastagens(cube, regularization_year, multicores)
+    extract_aml_2020_pastagens(cube_year_reg, regularization_year, multicores)
 
-    extract_sentinel_aml_2021_2022_embrapa(cube, regularization_year, multicores)
+    extract_sentinel_aml_2021_2022_embrapa(cube_year_reg, regularization_year, multicores)
 
-    extract_amostas_embrapa_2018_2024(cube, regularization_year, multicores)
+    extract_amostas_embrapa_2018_2024(cube_year_reg, regularization_year, multicores)
 
-    extract_landsat_amazon_rainforest_2020(cube, regularization_year, multicores)
+    extract_landsat_amazon_rainforest_2020(cube_year_reg, regularization_year, multicores)
   })
 }
