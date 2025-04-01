@@ -100,8 +100,11 @@ extract_amostas_embrapa_2018_2024 <- function(cube, year, multicores) {
         "Maio/2024"    = "2024-05-01"
       )
     ) |>
+    dplyr::mutate(label = classe_pri) |>
     dplyr::mutate(data = as.Date(data)) |>
-    dplyr::filter(data >= "2020-01-01" & data <= "2022-12-31")
+    dplyr::filter(data >= "2020-01-01" & data <= "2022-12-31") |>
+    sf::st_zm() |>
+    sf::st_cast("POINT")
 
   output_dir <- SAMPLES_BASE_DIR / samples_name / year
   fs::dir_create(output_dir, recurse = TRUE)
