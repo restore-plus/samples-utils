@@ -6,7 +6,7 @@ library(purrr)
 #
 
 # Path
-base_dir <- "data/derived/ts-region-3/"
+base_dir <- restoreutils::project_samples_dir()
 
 # Samples years
 samples_years <- c(2022, 2021, 2020)

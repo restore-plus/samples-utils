@@ -1,12 +1,12 @@
 
-# Time-series extraction utilities
+# Samples utilities
 
 <img src=".github/images/sits_sticker.png" alt="SITS icon" align="right" height="150" width="150"/>
 
 <!-- badges: start --> <!-- badges: end -->
 
-Scripts to facilitate, accelerate, and enable distributed extraction of
-time-series samples for the Restore+ Project.
+Useful scripts and functions to facilitate the analysis of samples
+within the Restore+ Project.
 
 ## Getting started
 
@@ -14,11 +14,11 @@ To get started with the examples in this repository, first clone the
 repository:
 
 ``` sh
-git clone https://github.com/restore-plus/timeseries-extraction-utils
+git clone https://github.com/restore-plus/samples-utils
 ```
 
-Next, open the `timeseries-extraction-utils` directory in the RStudio
-and install the package:
+Next, open the `samples-utils` directory in the RStudio and install the
+package:
 
 ``` r
 devtools::install(".")
