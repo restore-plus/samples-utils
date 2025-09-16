@@ -14,13 +14,13 @@ library(samplesutils)
 target_years <- 2010
 
 # Samples
-samples_file <- "data/raw/samples/Amostras_Semiperene2010_v1.gpkg"
+samples_file <- "data/raw/samples/som_ts_semiperene2010_v2_3x3_pt.gpkg"
 
 # Samples directory
 base_samples_dir <- "data/derived/samples/semiperene"
 
 # Cube directory
-cube_directory <- "/data/cubes/cube-region-3/"
+cube_directory <- "/data2/cubes/cube-region-3/"
 
 
 #
@@ -73,5 +73,5 @@ for (target_year in target_years) {
   )
 
   # Save results
-  saveRDS(samples_ts, samples_dir / paste0("samples-semiperene-", target_year, ".rds"))
+  saveRDS(samples_ts, samples_dir / paste0("samples-semiperene-", target_year, "-3x3.rds"))
 }

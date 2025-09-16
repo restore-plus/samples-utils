@@ -36,8 +36,7 @@ multicores <- 20
 #
 # 1. Load samples
 #
-samples <- sf::st_read(samples_file) |>
-  dplyr::mutate(label = "past_arbustiva")
+samples <- sf::st_read(samples_file)
 
 
 #

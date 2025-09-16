@@ -16,7 +16,7 @@ eco_name <- "eco3"
 target_years <- 2010
 
 # Samples
-samples_file <- "data/raw/samples/som_ts_semiperene2010_v2_3x3_pt.gpkg"
+samples_file <- "data/raw/samples/som_ts_pastarbustiva_v3_pt.gpkg"
 
 # Samples directory
 base_samples_dir <- "data/derived/samples/pastagem-arbustiva/"
@@ -76,5 +76,5 @@ for (target_year in target_years) {
   )
 
   # Save results
-  saveRDS(samples_ts, samples_dir / paste0("samples-pastagem-arbustiva-", eco_name, "-", target_year, "-3x3.rds"))
+  saveRDS(samples_ts, samples_dir / paste0("samples-pastagem-arbustiva-", eco_name, "-", target_year, ".rds"))
 }
